@@ -33,6 +33,7 @@ Options:
   -p, --port [n]        Port to listen on (default: 8090)
   -f, --fake-preflight  Fake preflight requests and respond to OPTIONS with CORS headers
   -h, --headers [f]     JSON file containing additional headers send to the server
+  -o, --origin <s>      Origin to allow in access-control-allow-origin header (default: *)
 ```
 
 ### Example
