@@ -23,11 +23,11 @@
   },
   "license": "MIT",
   "dependencies": {
-    "colors": "^1.0.3",
-    "commander": "^2.5.0",
-    "connect": "^3.3.3",
+    "colors": "^1.1.2",
+    "commander": "^2.11.0",
+    "connect": "^3.6.4",
     "merge": "^1.2.0",
-    "request": "^2.47.0"
+    "request": "^2.82.0"
   },
   "repository": {
     "type": "git",
