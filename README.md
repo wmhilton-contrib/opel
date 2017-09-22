@@ -23,23 +23,28 @@ npm install -g opel
 
 ### Use
 ```
-Usage: cmd [options]
+Usage: opel [options]
 
 Options:
 
-  -h, --help            output usage information
   -V, --version         output the version number
-  -e, --endpoint <s>    Remote API endpoint (full URL, required)
-  -p, --port [n]        Port to listen on (default: 8090)
-  -f, --fake-preflight  Fake preflight requests and respond to OPTIONS with CORS headers
-  -h, --headers [f]     JSON file containing additional headers send to the server
-  -o, --origin <s>      Origin to allow in access-control-allow-origin header (default: *)
+  -e, --endpoint <s>    Remote API endpoint (full URL, required) aka ENDPOINT
+  -p, --port [n]        Port to listen on (default: 8090) aka PORT
+  -f, --fake-preflight  Fake OPTIONS preflight (default: false) aka FAKE_PREFLIGHT
+  -h, --headers [f]     JSON file containing additional headers send to the server aka HEADERS
+  -o, --origin <s>      Origin to allow in access-control-allow-origin header (default: *) aka ORIGIN
+  -h, --help            output usage information
 ```
 
 ### Example
 ```bash
 $ opel -e http://api.myserver.com -p 8888
 $ curl http://localhost:8888/v1/resource  #resolves to http://api.myserver.com/v1/resource
+```
+
+You can also use environment variables instead of command line options:
+```bash
+$ PORT=8888 ENDPOINT=http://api.myserver.com opel
 ```
 
 ### To-Do

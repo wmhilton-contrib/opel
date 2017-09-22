@@ -10,13 +10,16 @@ var program = require('commander'),
     request = require('request'),
     merge = require('merge');
 
+var pkg = require('../package.json')
+
 program
-  .version('0.3.0')
-  .option('-e, --endpoint <s>', 'Remote API endpoint (full URL, required)', String)
-  .option('-p, --port [n]', 'Port to listen on (default: 8090)', parseInt)
-  .option('-f, --fake-preflight', 'Fake OPTIONS preflight')
-  .option('-h, --headers [f]', 'JSON file containing additional headers send to the server', String)
-  .option('-o, --origin <s>', 'Origin to allow in access-control-allow-origin header (default: *)')
+  .name(pkg.name)
+  .version(pkg.version)
+  .option('-e, --endpoint <s>', 'Remote API endpoint (full URL, required) aka ENDPOINT', String)
+  .option('-p, --port [n]', 'Port to listen on (default: 8090) aka PORT', parseInt)
+  .option('-f, --fake-preflight', 'Fake OPTIONS preflight (default: false) aka FAKE_PREFLIGHT')
+  .option('-h, --headers [f]', 'JSON file containing additional headers send to the server aka HEADERS', String)
+  .option('-o, --origin <s>', 'Origin to allow in access-control-allow-origin header (default: *) aka ORIGIN')
   .parse(process.argv);
 
 colors.setTheme({
@@ -43,6 +46,12 @@ var out = {
   }
 };
 
+program.endpoint = program.endpoint || process.env.ENDPOINT;
+program.port = program.port || process.env.PORT || 8090;
+program.fakePreflight = program.fakePreflight || !!process.env.FAKE_PREFLIGHT;
+program.headers = program.headers || process.env.HEADERS;
+program.origin = program.origin || process.env.ORIGIN;
+
 var corsHeaders = {
   'access-control-allow-origin': program.origin || '*',
   'access-control-allow-headers': 'Authorization, Content-Type, If-None-Match,' +
@@ -57,10 +66,8 @@ var app = connect();
 if (!program.endpoint || !program.endpoint.match(/^https?\:\/\//)) {
   return out.fatal('Please define a valid API endpoint (starting with http(s))');
 }
-program.port = program.port || 8090;
 
 var headers;
-
 if (program.headers) {
   try {
     headers = require(path.resolve(process.cwd(), program.headers));
